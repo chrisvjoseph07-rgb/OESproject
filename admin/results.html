@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results & Essay Grading - ApexExam Admin</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container">
+      <a href="dashboard.html" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>ApexExam Admin</span>
+      </a>
+
+      <div class="flex items-center gap-4">
+        <span class="badge badge-danger">ADMINISTRATOR</span>
+        <button onclick="Auth.logout()" class="btn btn-secondary btn-sm">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a></li>
+        <li><a href="exams.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Examinations</a></li>
+        <li><a href="question-bank.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Question Bank</a></li>
+        <li><a href="results.html" class="sidebar-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Grading & Results</a></li>
+        <li><a href="students.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Students</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <div class="flex justify-between items-center flex-wrap gap-4" style="margin-bottom: 2rem;">
+        <div>
+          <h1>Assessment Results & Essay Evaluation</h1>
+          <p>Review candidate attempts, evaluate open-ended essay questions, and inspect anti-cheat violation metrics.</p>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="card" style="margin-bottom: 1.5rem; padding: 1rem 1.5rem;">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="results-exam-filter">Filter by Examination</label>
+            <select id="results-exam-filter" class="form-control">
+              <option value="all">All Examinations</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="results-status-filter">Evaluation Status</label>
+            <select id="results-status-filter" class="form-control">
+              <option value="all">All Submissions</option>
+              <option value="pending_review">Needs Essay Grading Only</option>
+              <option value="graded">Fully Graded</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Table -->
+      <div class="card">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Candidate</th>
+                <th>Exam & Time</th>
+                <th>Anti-Cheat</th>
+                <th>MCQ Score</th>
+                <th>Essay Score</th>
+                <th>Total Marks</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="results-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Grading / Evaluation Modal -->
+  <div class="modal-overlay" id="grade-modal">
+    <div class="modal-card" style="max-width: 800px;">
+      <div class="modal-header">
+        <div>
+          <h3>Submission Evaluation & Feedback</h3>
+          <p class="text-xs text-muted">
+            Candidate: <strong id="grade-modal-student"></strong> • Exam: <span id="grade-modal-exam"></span>
+          </p>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="document.getElementById('grade-modal').classList.remove('active')">&times;</button>
+      </div>
+
+      <input type="hidden" id="grade-sub-id">
+
+      <div id="grade-questions-container" style="max-height: 65vh; overflow-y: auto; padding-right: 0.5rem;">
+        <!-- Populated with MCQs & Essay Answer Inputs -->
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('grade-modal').classList.remove('active')">Close</button>
+        <button type="button" class="btn btn-primary" onclick="AdminController.saveGrades()">💾 Submit Evaluation & Finalize Score</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/notification.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      AdminController.renderResultsManagement();
+    });
+  </script>
+</body>
+</html>

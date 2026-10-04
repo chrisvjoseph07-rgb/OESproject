@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment Results - ApexExam</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #scorecard-modal, #scorecard-modal * {
+        visibility: visible;
+      }
+      #scorecard-modal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: #fff;
+      }
+      .modal-card {
+        box-shadow: none;
+        max-width: 100%;
+        padding: 0;
+      }
+      .modal-footer, .btn-print, .btn-ghost {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container">
+      <a href="dashboard.html" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>ApexExam Portal</span>
+      </a>
+
+      <div class="flex items-center gap-4">
+        <span class="badge badge-primary">STUDENT</span>
+        <button onclick="Auth.logout()" class="btn btn-secondary btn-sm">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a></li>
+        <li><a href="exams.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Available Tests</a></li>
+        <li><a href="results.html" class="sidebar-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>My Results & Certs</a></li>
+        <li><a href="profile.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>My Profile</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <div class="flex justify-between items-center flex-wrap gap-4" style="margin-bottom: 2rem;">
+        <div>
+          <h1>Assessment History & Scorecards</h1>
+          <p>Review comprehensive performance analytics, question-by-question breakdown, and evaluator remarks.</p>
+        </div>
+      </div>
+
+      <!-- Results Table -->
+      <div class="card">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Exam Title & Date</th>
+                <th>Time Spent</th>
+                <th>Integrity</th>
+                <th>MCQ Score</th>
+                <th>Total Score</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="student-results-tbody">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Detailed Scorecard Modal -->
+  <div class="modal-overlay" id="scorecard-modal">
+    <div class="modal-card" style="max-width: 780px;">
+      <div class="modal-header">
+        <div>
+          <h2 style="font-size: 1.4rem;" id="scorecard-exam-title">Official Score Report</h2>
+          <p class="text-xs text-muted">Examinee: <strong id="scorecard-student"></strong> • Completed: <span id="scorecard-date"></span></p>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="document.getElementById('scorecard-modal').classList.remove('active')">&times;</button>
+      </div>
+
+      <!-- Summary KPI Block -->
+      <div class="grid grid-cols-3 gap-4 p-4" style="background: var(--bg-subtle); border-radius: var(--radius-lg); margin-bottom: 1.5rem; text-align: center;">
+        <div>
+          <div class="text-xs text-muted">Final Percentage</div>
+          <div class="font-bold text-2xl text-primary" id="scorecard-percentage">0%</div>
+        </div>
+        <div>
+          <div class="text-xs text-muted">Accumulated Points</div>
+          <div class="font-bold text-2xl" id="scorecard-total">0 / 0</div>
+        </div>
+        <div>
+          <div class="text-xs text-muted">Result Verdict</div>
+          <div style="margin-top: 0.25rem;"><span id="scorecard-badge" class="badge badge-success">PASSED</span></div>
+        </div>
+      </div>
+
+      <!-- Breakdown Title -->
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Question Breakdown & Solutions</h3>
+
+      <div id="scorecard-breakdown" style="max-height: 50vh; overflow-y: auto; padding-right: 0.5rem;">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-print" onclick="window.print()">🖨️ Print Score Sheet</button>
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('scorecard-modal').classList.remove('active')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/notification.js"></script>
+  <script src="../assets/js/student.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      StudentController.renderResultsHistory();
+    });
+  </script>
+</body>
+</html>

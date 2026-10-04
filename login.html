@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In - ApexExam</title>
+  <meta name="description" content="Sign in to your ApexExam account for Admin or Student access.">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    body {
+      background: radial-gradient(circle at 10% 20%, rgba(79, 70, 229, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
+                  #f8fafc;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .auth-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+    }
+    .auth-card-container {
+      width: 100%;
+      max-width: 980px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.12), 0 0 25px rgba(79, 70, 229, 0.05);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      transition: all var(--transition-normal);
+    }
+    .auth-visual-side {
+      background: linear-gradient(145deg, #0f172a, #1e1b4b);
+      color: #ffffff;
+      padding: 3.5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .auth-visual-image {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      margin: 1.5rem 0;
+      transition: transform 0.3s ease;
+    }
+    .auth-visual-image:hover {
+      transform: scale(1.02);
+    }
+    .auth-form-side {
+      padding: 3.5rem 2.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .role-tabs {
+      display: flex;
+      background: var(--bg-subtle);
+      padding: 0.35rem;
+      border-radius: var(--radius-md);
+      margin-bottom: 2rem;
+      gap: 0.35rem;
+      border: 1px solid var(--border-light);
+    }
+    .role-tab {
+      flex: 1;
+      text-align: center;
+      padding: 0.75rem 0.5rem;
+      font-weight: 600;
+      font-size: 0.925rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--text-secondary);
+      border: none;
+      background: transparent;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .role-tab.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+    .role-tab#tab-admin.active {
+      color: #dc2626;
+    }
+    @media (max-width: 880px) {
+      .auth-card-container {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+      }
+      .auth-visual-side {
+        display: none;
+      }
+      .auth-form-side {
+        padding: 2.25rem 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Minimal Header -->
+  <header class="navbar" style="border: none; background: transparent;">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>ApexExam</span>
+      </a>
+      <div class="flex items-center gap-2">
+        <a href="admin/signup.html" class="btn btn-ghost btn-sm" style="color: #dc2626; font-weight: 600;">+ New Admin Account</a>
+        <a href="index.html" class="btn btn-ghost btn-sm">← Back to Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-wrapper">
+    <div class="auth-card-container">
+      <!-- Visual Showcase Side -->
+      <div class="auth-visual-side">
+        <div>
+          <span id="visual-badge" class="badge badge-primary text-xs" style="background: rgba(79, 70, 229, 0.25); color: #a5b4fc; border: 1px solid rgba(165, 180, 252, 0.2);">
+            ENTERPRISE EXAMINATION SYSTEM
+          </span>
+          <h2 id="visual-title" style="color: #ffffff; font-size: 1.75rem; margin-top: 0.75rem; line-height: 1.25;">
+            Secured Online Assessments & Proctoring
+          </h2>
+          <p id="visual-desc" style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.5rem;">
+            Empowering institutions with automated evaluations, real-time proctoring monitoring, and verifiable certification.
+          </p>
+        </div>
+
+        <div class="auth-visual-image">
+          <img id="visual-img" src="assets/images/proctoring.jpg" alt="Proctoring System" style="width: 100%; height: auto; display: block;">
+        </div>
+
+        <div style="font-size: 0.8rem; color: #64748b;">
+          🔒 End-to-end encrypted session • Anti-fraud monitoring active
+        </div>
+      </div>
+
+      <!-- Authentication Form Side -->
+      <div class="auth-form-side">
+        <!-- Role Selector Switcher -->
+        <div class="role-tabs">
+          <button type="button" class="role-tab active" id="tab-student" onclick="switchRole('student')">
+            🎓 Student Portal
+          </button>
+          <button type="button" class="role-tab" id="tab-admin" onclick="switchRole('admin')">
+            ⚙️ Administrator
+          </button>
+        </div>
+
+        <!-- Dynamic Header info -->
+        <div style="margin-bottom: 1.5rem;">
+          <div id="login-role-badge" class="badge badge-primary text-xs" style="margin-bottom: 0.4rem;">
+            STUDENT CANDIDATE PORTAL
+          </div>
+          <h1 id="login-heading" style="font-size: 1.75rem; margin-bottom: 0.35rem;">Student Sign In</h1>
+          <p id="login-subtitle">Enter your student credentials to access your examinations and results</p>
+        </div>
+
+        <!-- Dynamic Form -->
+        <form id="login-form">
+          <div class="form-group">
+            <label class="form-label" id="label-email" for="login-email">Student Email Address</label>
+            <input type="email" id="login-email" class="form-control" placeholder="student@institution.edu" required autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" id="label-password" for="login-password">Password</label>
+            <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+
+          <button type="submit" id="btn-submit-login" class="btn btn-primary" style="width: 100%; margin-top: 0.75rem; padding: 0.8rem; font-size: 1rem;">
+            Sign In to Student Portal 🎓
+          </button>
+        </form>
+
+        <!-- Dynamic Footer Note with New Admin & New Student links -->
+        <div id="login-footer" style="text-align: center; margin-top: 2rem; font-size: 0.9rem;">
+          <span class="text-secondary">New examinee? </span>
+          <a href="signup.html" class="font-semibold">Register for examinations</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/notification.js"></script>
+  <script>
+    let currentRole = 'student';
+
+    function switchRole(role) {
+      currentRole = role;
+
+      const tabStudent = document.getElementById('tab-student');
+      const tabAdmin = document.getElementById('tab-admin');
+      const roleBadge = document.getElementById('login-role-badge');
+      const heading = document.getElementById('login-heading');
+      const subtitle = document.getElementById('login-subtitle');
+      const labelEmail = document.getElementById('label-email');
+      const inputEmail = document.getElementById('login-email');
+      const btnSubmit = document.getElementById('btn-submit-login');
+      const footer = document.getElementById('login-footer');
+      const visualBadge = document.getElementById('visual-badge');
+      const visualTitle = document.getElementById('visual-title');
+      const visualDesc = document.getElementById('visual-desc');
+
+      if (role === 'admin') {
+        tabStudent.classList.remove('active');
+        tabAdmin.classList.add('active');
+
+        roleBadge.className = 'badge badge-danger text-xs';
+        roleBadge.textContent = 'ADMINISTRATOR & FACULTY ACCESS';
+        heading.textContent = 'Administrator Sign In';
+        subtitle.textContent = 'Enter administrative credentials to manage exams, questions, and grade student submissions.';
+
+        labelEmail.textContent = 'Administrator / Faculty Email';
+        inputEmail.placeholder = 'admin@exam.com';
+
+        btnSubmit.className = 'btn btn-danger';
+        btnSubmit.innerHTML = 'Sign In to Admin Console ⚙️';
+
+        footer.innerHTML = `
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; text-align: center;">
+            <div>
+              <span class="text-secondary">New faculty or examiner? </span>
+              <a href="admin/signup.html" class="font-semibold text-danger">Create New Administrator Account →</a>
+            </div>
+            <div>
+              <a href="#" onclick="switchRole('student'); return false;" class="text-xs text-muted">Switch back to Student Portal</a>
+            </div>
+          </div>
+        `;
+
+        visualBadge.textContent = 'FACULTY & EXAMINER CONTROL';
+        visualBadge.className = 'badge badge-danger text-xs';
+        visualBadge.style.background = 'rgba(239, 68, 68, 0.2)';
+        visualBadge.style.color = '#fca5a5';
+        visualBadge.style.borderColor = 'rgba(252, 165, 165, 0.3)';
+        visualTitle.textContent = 'Faculty Exam Management & Grading';
+        visualDesc.textContent = 'Design examinations, curate questions, review real-time anti-cheat logs, and evaluate open-ended essays.';
+      } else {
+        tabStudent.classList.add('active');
+        tabAdmin.classList.remove('active');
+
+        roleBadge.className = 'badge badge-primary text-xs';
+        roleBadge.textContent = 'STUDENT CANDIDATE PORTAL';
+        heading.textContent = 'Student Sign In';
+        subtitle.textContent = 'Enter your student credentials to access your examinations and results.';
+
+        labelEmail.textContent = 'Student Email Address';
+        inputEmail.placeholder = 'student@institution.edu';
+
+        btnSubmit.className = 'btn btn-primary';
+        btnSubmit.innerHTML = 'Sign In to Student Portal 🎓';
+
+        footer.innerHTML = `
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; text-align: center;">
+            <div>
+              <span class="text-secondary">New examinee? </span>
+              <a href="signup.html" class="font-semibold">Register for examinations</a>
+            </div>
+            <div>
+              <a href="#" onclick="switchRole('admin'); return false;" class="text-xs text-muted">Faculty or Admin? Switch to Admin Sign In</a>
+            </div>
+          </div>
+        `;
+
+        visualBadge.textContent = 'STUDENT TESTING SUITE';
+        visualBadge.className = 'badge badge-primary text-xs';
+        visualBadge.style.background = 'rgba(79, 70, 229, 0.25)';
+        visualBadge.style.color = '#a5b4fc';
+        visualBadge.style.borderColor = 'rgba(165, 180, 252, 0.2)';
+        visualTitle.textContent = 'Secured Online Assessments & Proctoring';
+        visualDesc.textContent = 'Take examinations with live countdown timers, answer persistence, and instant certified scorecards.';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check if user is already logged in
+      const user = Auth.getCurrentUser();
+      if (user) {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (!urlParams.get('switch')) {
+          window.location.href = user.role === 'admin' ? 'admin/dashboard.html' : 'student/dashboard.html';
+          return;
+        }
+      }
+
+      // Check role param in URL
+      const params = new URLSearchParams(window.location.search);
+      const roleParam = params.get('role');
+      if (roleParam === 'admin') {
+        switchRole('admin');
+      } else {
+        switchRole('student');
+      }
+    });
+
+    // Form Submit Handler
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      const result = Auth.login(email, password);
+      if (result.success) {
+        Toast.success(`Welcome back, ${result.user.name}!`);
+        setTimeout(() => {
+          window.location.href = result.redirect;
+        }, 500);
+      } else {
+        Toast.error(result.message);
+      }
+    });
+  </script>
+</body>
+</html>

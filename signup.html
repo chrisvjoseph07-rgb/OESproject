@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration - ApexExam</title>
+  <meta name="description" content="Create a student account to take exams and view certifications.">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    body {
+      background: radial-gradient(circle at top, rgba(79, 70, 229, 0.05), transparent 70%), var(--bg-page);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .auth-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1rem;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 540px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      padding: 2.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Minimal Header -->
+  <header class="navbar" style="border: none; background: transparent;">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>ApexExam</span>
+      </a>
+      <a href="login.html" class="btn btn-ghost btn-sm">Already registered? Sign In</a>
+    </div>
+  </header>
+
+  <main class="auth-container">
+    <div class="auth-card">
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <span class="badge badge-primary" style="margin-bottom: 0.5rem;">Student Enrollment</span>
+        <h1 style="font-size: 1.85rem; margin-bottom: 0.35rem;">Create Student Account</h1>
+        <p>Register to participate in proctored examinations</p>
+      </div>
+
+      <form id="signup-form">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-group">
+            <label class="form-label" for="reg-name">Full Name *</label>
+            <input type="text" id="reg-name" class="form-control" placeholder="e.g. Michael Chen" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-roll">Roll / Registration No. *</label>
+            <input type="text" id="reg-roll" class="form-control" placeholder="e.g. CS-2026-112" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-email">Institutional Email *</label>
+          <input type="email" id="reg-email" class="form-control" placeholder="michael@student.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-dept">Academic Department *</label>
+          <select id="reg-dept" class="form-control" required>
+            <option value="Computer Science">Department of Computer Science</option>
+            <option value="Software Engineering">Software Engineering</option>
+            <option value="Artificial Intelligence">Artificial Intelligence & Data Science</option>
+            <option value="Cyber Security">Cyber Security</option>
+            <option value="Information Systems">Information Systems</option>
+          </select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-group">
+            <label class="form-label" for="reg-pass">Password *</label>
+            <input type="password" id="reg-pass" class="form-control" placeholder="Min 6 characters" minlength="6" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-pass-confirm">Confirm Password *</label>
+            <input type="password" id="reg-pass-confirm" class="form-control" placeholder="Repeat password" required>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 0.5rem;">
+          <label style="display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
+            <input type="checkbox" id="reg-terms" required style="margin-top: 0.2rem;">
+            <span>I agree to adhere to the Academic Integrity Code and will not engage in unauthorized assistance during exams.</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+          Complete Registration & Enter Portal →
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.5rem;">
+        <div>
+          <span class="text-secondary">Already have an account? </span>
+          <a href="login.html" class="font-semibold">Sign in here</a>
+        </div>
+        <div>
+          <span class="text-muted text-xs">Faculty or Examiner? </span>
+          <a href="admin/signup.html" class="font-semibold text-xs text-danger">Create Administrator Account →</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/notification.js"></script>
+  <script>
+    document.getElementById('signup-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('reg-name').value;
+      const rollNo = document.getElementById('reg-roll').value;
+      const email = document.getElementById('reg-email').value;
+      const department = document.getElementById('reg-dept').value;
+      const pass = document.getElementById('reg-pass').value;
+      const confirmPass = document.getElementById('reg-pass-confirm').value;
+
+      if (pass !== confirmPass) {
+        Toast.error('Passwords do not match! Please check and try again.');
+        return;
+      }
+
+      const res = Auth.signup({
+        name,
+        rollNo,
+        email,
+        department,
+        password: pass
+      });
+
+      if (res.success) {
+        Toast.success('Account created successfully! Redirecting...');
+        setTimeout(() => {
+          window.location.href = res.redirect;
+        }, 700);
+      } else {
+        Toast.error(res.message);
+      }
+    });
+  </script>
+</body>
+</html>

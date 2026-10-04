@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examination Room - ApexExam</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/exam-engine.css">
+</head>
+<body class="in-exam">
+
+  <!-- Sticky Exam Header -->
+  <header class="exam-header">
+    <div class="exam-info">
+      <div class="flex items-center gap-2">
+        <span class="badge badge-primary text-xs">OFFICIAL ASSESSMENT</span>
+        <h2 id="exam-title-display">Loading Examination...</h2>
+      </div>
+      <div class="text-xs text-muted" style="margin-top: 0.15rem;">
+        Candidate: <strong id="candidate-name-display">Student</strong>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <div id="violation-counter" class="badge badge-neutral">Tab Switches: 0 / 3</div>
+
+      <div class="timer-box">
+        <span style="font-size: 1rem;">⏱️</span>
+        <span id="exam-timer">00:00</span>
+      </div>
+
+      <button type="button" onclick="ExamEngine.openSubmitModal()" class="btn btn-danger btn-sm">
+        Submit Test
+      </button>
+    </div>
+  </header>
+
+  <!-- Exam Main Interface -->
+  <main class="exam-layout">
+    <!-- Center / Left: Current Question Card -->
+    <div class="question-card">
+      <div>
+        <div class="question-header">
+          <div class="flex items-center gap-2">
+            <span class="badge badge-neutral" id="q-current-number">Question 1 of 10</span>
+            <span class="badge badge-primary" id="q-type-badge">MCQ</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-sm text-primary" id="q-points-badge">5 Points</span>
+          </div>
+        </div>
+
+        <!-- Question Prompt -->
+        <div class="question-text" id="q-prompt-text">
+          Loading question text...
+        </div>
+
+        <!-- Answer Options / Input Area -->
+        <div id="q-answer-area">
+          <!-- Populated dynamically (MCQ options or Essay textarea) -->
+        </div>
+      </div>
+
+      <!-- Navigation & Action Buttons -->
+      <div class="flex justify-between items-center flex-wrap gap-2" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-light);">
+        <div class="flex gap-2">
+          <button type="button" id="btn-prev" class="btn btn-secondary" onclick="ExamEngine.prevQuestion()">
+            ← Previous
+          </button>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="ExamEngine.clearCurrentAnswer()">
+            Clear Response
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button type="button" id="btn-mark-review" class="btn btn-secondary btn-sm" onclick="ExamEngine.toggleMarkForReview()">
+            ☆ Mark for Review
+          </button>
+          <button type="button" id="btn-next" class="btn btn-primary" onclick="ExamEngine.nextQuestion()">
+            Next Question →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side: Question Navigation Palette -->
+    <aside class="palette-card">
+      <div class="flex justify-between items-center">
+        <h4 style="font-size: 1rem;">Question Palette</h4>
+        <span class="badge badge-neutral text-xs">Total: <span id="q-palette-total"></span></span>
+      </div>
+
+      <!-- Question Numbers Grid -->
+      <div class="palette-grid" id="question-palette-grid">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Palette Legend -->
+      <div class="palette-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background: var(--success);"></div>
+          <span>Answered (<strong id="count-answered">0</strong>)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background: var(--warning);"></div>
+          <span>Review (<strong id="count-marked">0</strong>)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background: var(--bg-subtle); border: 1px solid #cbd5e1;"></div>
+          <span>Unanswered (<strong id="count-remaining">0</strong>)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="border: 2px solid var(--primary); background: transparent;"></div>
+          <span>Current</span>
+        </div>
+      </div>
+
+      <!-- Final Submit Prompt -->
+      <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-light);">
+        <button type="button" onclick="ExamEngine.openSubmitModal()" class="btn btn-success" style="width: 100%;">
+          ✓ Finalize & Submit Test
+        </button>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Submit Confirmation Modal -->
+  <div class="modal-overlay" id="submit-confirm-modal">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3>Submit Assessment?</h3>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="document.getElementById('submit-confirm-modal').classList.remove('active')">&times;</button>
+      </div>
+
+      <p style="margin-bottom: 1.25rem;">
+        Are you sure you want to conclude and submit your examination? Once submitted, your answers cannot be altered.
+      </p>
+
+      <div class="grid grid-cols-3 gap-2 p-3" style="background: var(--bg-subtle); border-radius: var(--radius-md); text-align: center; margin-bottom: 1.5rem;">
+        <div>
+          <div class="text-xs text-muted">Answered</div>
+          <div class="font-bold text-lg text-success" id="modal-ans-count">0</div>
+        </div>
+        <div>
+          <div class="text-xs text-muted">Marked</div>
+          <div class="font-bold text-lg text-warning" id="modal-marked-count">0</div>
+        </div>
+        <div>
+          <div class="text-xs text-muted">Unanswered</div>
+          <div class="font-bold text-lg text-danger" id="modal-unans-count">0</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('submit-confirm-modal').classList.remove('active')">Return to Exam</button>
+        <button type="button" class="btn btn-success" onclick="ExamEngine.submitExam(false)">Yes, Submit Final Answers</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/notification.js"></script>
+  <script src="../assets/js/exam-engine.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      ExamEngine.init();
+    });
+  </script>
+</body>
+</html>

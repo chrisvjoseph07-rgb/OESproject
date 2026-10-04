@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Registration - ApexExam Admin</title>
+  <meta name="description" content="Register an Administrator or Faculty account for ApexExam.">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    body {
+      background: radial-gradient(circle at top right, rgba(239, 68, 68, 0.08), transparent 60%),
+                  radial-gradient(circle at bottom left, rgba(79, 70, 229, 0.08), transparent 60%),
+                  var(--bg-page);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .auth-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+    .auth-card-container {
+      width: 100%;
+      max-width: 1000px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+    }
+    .auth-visual-side {
+      background: linear-gradient(145deg, #0f172a, #2a0808);
+      color: #ffffff;
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .auth-visual-image {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      margin: 1.5rem 0;
+    }
+    .auth-form-side {
+      padding: 3rem 2.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    @media (max-width: 900px) {
+      .auth-card-container {
+        grid-template-columns: 1fr;
+        max-width: 520px;
+      }
+      .auth-visual-side {
+        display: none;
+      }
+      .auth-form-side {
+        padding: 2.25rem 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Minimal Header -->
+  <header class="navbar" style="border: none; background: transparent;">
+    <div class="container">
+      <a href="../index.html" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>ApexExam Admin</span>
+      </a>
+      <div class="flex items-center gap-3">
+        <a href="login.html" class="btn btn-ghost btn-sm">Admin Sign In</a>
+        <a href="../index.html" class="btn btn-ghost btn-sm">← Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-wrapper">
+    <div class="auth-card-container">
+      <!-- Visual Showcase Side -->
+      <div class="auth-visual-side">
+        <div>
+          <span class="badge badge-danger text-xs" style="background: rgba(239, 68, 68, 0.25); color: #fca5a5; border: 1px solid rgba(252, 165, 165, 0.3);">
+            FACULTY ONBOARDING PORTAL
+          </span>
+          <h2 style="color: #ffffff; font-size: 1.75rem; margin-top: 0.75rem; line-height: 1.25;">
+            Join the Academic Proctoring Network
+          </h2>
+          <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.5rem;">
+            Register as a verified instructor or examiner to create exams, publish questions, and evaluate student assessments.
+          </p>
+        </div>
+
+        <div class="auth-visual-image">
+          <img src="../assets/images/proctoring.jpg" alt="Proctoring System" style="width: 100%; height: auto; display: block;">
+        </div>
+
+        <div style="font-size: 0.8rem; color: #64748b;">
+          🛡️ Verified Faculty Credentials Required • Institutional System
+        </div>
+      </div>
+
+      <!-- Registration Form Side -->
+      <div class="auth-form-side">
+        <div style="margin-bottom: 1.5rem;">
+          <span class="badge badge-danger text-xs" style="margin-bottom: 0.4rem;">
+            NEW ADMINISTRATOR REGISTRATION
+          </span>
+          <h1 style="font-size: 1.75rem; margin-bottom: 0.35rem;">Create Admin Account</h1>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">
+            Enter your faculty credentials to set up your administrator account.
+          </p>
+        </div>
+
+        <form id="admin-signup-form">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="form-group">
+              <label class="form-label" for="admin-name">Full Name & Title *</label>
+              <input type="text" id="admin-name" class="form-control" placeholder="e.g. Dr. Alan Turing" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="admin-dept">Department *</label>
+              <input type="text" id="admin-dept" class="form-control" placeholder="e.g. Computer Science" required>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="form-group">
+              <label class="form-label" for="admin-email">Institutional Staff Email *</label>
+              <input type="email" id="admin-email" class="form-control" placeholder="name@university.edu" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="admin-designation">Designation / Role *</label>
+              <input type="text" id="admin-designation" class="form-control" placeholder="e.g. Professor / Examiner" required>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="form-group">
+              <label class="form-label" for="admin-pass">Password *</label>
+              <input type="password" id="admin-pass" class="form-control" placeholder="Min 6 characters" minlength="6" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="admin-confirm-pass">Confirm Password *</label>
+              <input type="password" id="admin-confirm-pass" class="form-control" placeholder="Repeat password" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="admin-passcode">
+              Faculty Security Passcode (Optional)
+            </label>
+            <input type="text" id="admin-passcode" class="form-control" placeholder="FACULTY2026 (or leave blank for demo)">
+            <div class="form-hint">Used by academic institutions to verify department staff.</div>
+          </div>
+
+          <button type="submit" class="btn btn-danger" style="width: 100%; margin-top: 0.5rem;">
+            Register Administrator Account ⚙️
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem;">
+          <span class="text-secondary">Already have an administrator account? </span>
+          <a href="login.html" class="font-semibold text-danger">Sign In here</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/notification.js"></script>
+  <script>
+    document.getElementById('admin-signup-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('admin-name').value;
+      const department = document.getElementById('admin-dept').value;
+      const email = document.getElementById('admin-email').value;
+      const designation = document.getElementById('admin-designation').value;
+      const pass = document.getElementById('admin-pass').value;
+      const confirmPass = document.getElementById('admin-confirm-pass').value;
+
+      if (pass !== confirmPass) {
+        Toast.error('Passwords do not match. Please verify and re-enter.');
+        return;
+      }
+
+      const res = Auth.signupAdmin({
+        name,
+        department,
+        email,
+        designation,
+        password: pass
+      });
+
+      if (res.success) {
+        Toast.success(`Welcome aboard, ${name}! Redirecting to Faculty Dashboard...`);
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 600);
+      } else {
+        Toast.error(res.message);
+      }
+    });
+  </script>
+</body>
+</html>

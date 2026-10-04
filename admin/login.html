@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty & Administrator Sign In - ApexExam</title>
+  <meta name="description" content="Sign in to the ApexExam Administration & Faculty Portal.">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    body {
+      background: radial-gradient(circle at 10% 20%, rgba(239, 68, 68, 0.08) 0%, transparent 40%),
+                  radial-gradient(circle at 90% 80%, rgba(79, 70, 229, 0.08) 0%, transparent 40%),
+                  #0b0f19;
+      color: #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .auth-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+    }
+    .auth-card-container {
+      width: 100%;
+      max-width: 960px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 40px rgba(239, 68, 68, 0.12);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .auth-visual-side {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(69, 10, 10, 0.4));
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+    .auth-visual-image {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      margin: 1.5rem 0;
+      transition: transform 0.3s ease;
+    }
+    .auth-visual-image:hover {
+      transform: scale(1.02);
+    }
+    .auth-form-side {
+      padding: 3.5rem 2.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: rgba(15, 23, 42, 0.7);
+    }
+    .form-control-dark {
+      background: rgba(30, 41, 59, 0.7) !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      color: #ffffff !important;
+    }
+    .form-control-dark:focus {
+      border-color: #f87171 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
+    }
+    .form-label-dark {
+      color: #e2e8f0;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    @media (max-width: 860px) {
+      .auth-card-container {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+      }
+      .auth-visual-side {
+        display: none;
+      }
+      .auth-form-side {
+        padding: 2.5rem 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Minimal Header -->
+  <header class="navbar" style="border: none; background: transparent;">
+    <div class="container">
+      <a href="../index.html" class="brand-logo" style="color: #ffffff;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>ApexExam <span style="font-size: 0.85rem; color: #ef4444; font-weight: 600;">Faculty</span></span>
+      </a>
+      <div class="flex items-center gap-3">
+        <a href="signup.html" class="btn btn-sm" style="background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3);">
+          + Register Admin
+        </a>
+        <a href="../login.html?role=student" class="btn btn-ghost btn-sm" style="color: #94a3b8;">🎓 Student Portal</a>
+        <a href="../index.html" class="btn btn-ghost btn-sm" style="color: #94a3b8;">← Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-wrapper">
+    <div class="auth-card-container">
+      <!-- Visual Showcase Side -->
+      <div class="auth-visual-side">
+        <div>
+          <span class="badge badge-danger text-xs" style="background: rgba(239, 68, 68, 0.25); color: #fca5a5; border: 1px solid rgba(252, 165, 165, 0.3);">
+            FACULTY & EXAMINER PORTAL
+          </span>
+          <h2 style="color: #ffffff; font-size: 1.75rem; margin-top: 0.75rem; line-height: 1.25;">
+            Examination Operations & Grading Console
+          </h2>
+          <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.5rem;">
+            Curate curriculum question banks, set strict proctoring thresholds, inspect anti-cheat infraction logs, and grade open-ended essays.
+          </p>
+        </div>
+
+        <div class="auth-visual-image">
+          <img src="../assets/images/proctoring.jpg" alt="Proctoring Dashboard" style="width: 100%; height: auto; display: block;">
+        </div>
+
+        <div style="font-size: 0.8rem; color: #64748b;">
+          🛡️ Authorized Personnel Only • Access Monitored & Audited
+        </div>
+      </div>
+
+      <!-- Authentication Form Side -->
+      <div class="auth-form-side">
+        <div style="margin-bottom: 2rem;">
+          <span class="badge badge-danger text-xs" style="margin-bottom: 0.4rem;">
+            FACULTY & ADMINISTRATOR ACCESS
+          </span>
+          <h1 style="color: #ffffff; font-size: 1.85rem; margin-bottom: 0.35rem;">Admin Sign In</h1>
+          <p style="color: #94a3b8; font-size: 0.95rem;">
+            Enter administrative credentials to access the examination control center.
+          </p>
+        </div>
+
+        <!-- Administrator Login Form -->
+        <form id="admin-login-form">
+          <div class="form-group">
+            <label class="form-label-dark" for="admin-email">Administrator / Faculty Email</label>
+            <input type="email" id="admin-email" class="form-control form-control-dark" placeholder="admin@exam.com" required autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label-dark" for="admin-password">Administrative Password</label>
+            <input type="password" id="admin-password" class="form-control form-control-dark" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+
+          <button type="submit" class="btn btn-danger" style="width: 100%; margin-top: 1rem; padding: 0.8rem; font-size: 1rem; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">
+            Sign In to Admin Console ⚙️
+          </button>
+        </form>
+
+        <!-- New Admin Registration Link -->
+        <div style="text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.9rem;">
+          <span style="color: #94a3b8;">New faculty examiner? </span>
+          <a href="signup.html" class="font-semibold" style="color: #f87171;">Create Administrator Account →</a>
+        </div>
+
+        <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
+          <a href="../login.html?role=student" style="color: #818cf8;">Switch to Student Examination Portal</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/notification.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = Auth.getCurrentUser();
+      if (user && user.role === 'admin') {
+        window.location.href = 'dashboard.html';
+      }
+    });
+
+    document.getElementById('admin-login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('admin-email').value;
+      const password = document.getElementById('admin-password').value;
+
+      const result = Auth.login(email, password);
+      if (result.success) {
+        if (result.user.role !== 'admin') {
+          Toast.error('Access denied. This account does not have administrator privileges.');
+          Auth.logout();
+          return;
+        }
+        Toast.success(`Welcome to Faculty Console, ${result.user.name}!`);
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 500);
+      } else {
+        Toast.error(result.message);
+      }
+    });
+  </script>
+</body>
+</html>

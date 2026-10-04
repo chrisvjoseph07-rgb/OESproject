@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Examination - ApexExam Admin</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container">
+      <a href="dashboard.html" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>ApexExam Admin</span>
+      </a>
+
+      <div class="flex items-center gap-4">
+        <span class="badge badge-danger">ADMINISTRATOR</span>
+        <button onclick="Auth.logout()" class="btn btn-secondary btn-sm">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a></li>
+        <li><a href="exams.html" class="sidebar-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Examinations</a></li>
+        <li><a href="question-bank.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Question Bank</a></li>
+        <li><a href="results.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Grading & Results</a></li>
+        <li><a href="students.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Students</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <div class="flex justify-between items-center" style="margin-bottom: 2rem;">
+        <div>
+          <a href="exams.html" class="btn btn-ghost btn-sm" style="margin-bottom: 0.5rem;">← Back to Exams List</a>
+          <h1>Edit Examination</h1>
+          <p>Modify duration, passing criteria, linked questions, and proctoring safeguards.</p>
+        </div>
+      </div>
+
+      <form id="exam-form">
+        <div class="grid grid-cols-3 gap-6">
+          <div style="grid-column: span 2;">
+            <div class="card" style="margin-bottom: 1.5rem;">
+              <h3 style="margin-bottom: 1rem;">1. General Information</h3>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div class="form-group">
+                  <label class="form-label" for="exam-title">Exam Title *</label>
+                  <input type="text" id="exam-title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="exam-code">Course / Exam Code *</label>
+                  <input type="text" id="exam-code" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-3 gap-4">
+                <div class="form-group">
+                  <label class="form-label" for="exam-category">Subject / Category *</label>
+                  <input type="text" id="exam-category" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="exam-duration">Duration (Minutes) *</label>
+                  <input type="number" id="exam-duration" class="form-control" min="1" max="300" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="exam-pass">Passing Mark (%) *</label>
+                  <input type="number" id="exam-pass" class="form-control" min="1" max="100" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="exam-description">Instructions & Overview</label>
+                <textarea id="exam-description" class="form-control" rows="3"></textarea>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="exam-status">Publication Status</label>
+                <select id="exam-status" class="form-control">
+                  <option value="published">Published (Visible to Students)</option>
+                  <option value="draft">Draft (Hidden)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Question Selection Card -->
+            <div class="card">
+              <div class="flex justify-between items-center" style="margin-bottom: 1rem;">
+                <div>
+                  <h3>2. Select Questions</h3>
+                  <p class="text-xs text-muted">Attach items from the centralized Question Bank</p>
+                </div>
+                <span id="selected-questions-summary" class="badge badge-primary">0 questions selected</span>
+              </div>
+
+              <div id="question-picker-container" style="max-height: 450px; overflow-y: auto; padding-right: 0.5rem;">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Settings & Security -->
+          <div>
+            <div class="card" style="margin-bottom: 1.5rem;">
+              <h3 style="margin-bottom: 1rem;">3. Examination Rules</h3>
+
+              <div class="form-group">
+                <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer;">
+                  <input type="checkbox" id="exam-randomize">
+                  <span class="font-semibold text-sm">Randomize Question Sequence</span>
+                </label>
+                <div class="form-hint">Shuffles the question presentation order for each student.</div>
+              </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 1.5rem;">
+              <h3 style="margin-bottom: 1rem;">4. Anti-Cheating & Proctoring</h3>
+
+              <div class="form-group">
+                <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer;">
+                  <input type="checkbox" id="ac-fullscreen">
+                  <span class="font-semibold text-sm">Require Fullscreen Mode</span>
+                </label>
+                <div class="form-hint">Prompts user into fullscreen and warns on exit.</div>
+              </div>
+
+              <div class="form-group">
+                <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer;">
+                  <input type="checkbox" id="ac-tabswitch">
+                  <span class="font-semibold text-sm">Detect Tab / Window Switches</span>
+                </label>
+                <div class="form-hint">Logs when the examinee blurs away from the exam tab.</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="ac-max-tabs">Max Permitted Tab Switches</label>
+                <input type="number" id="ac-max-tabs" class="form-control" min="1" max="10" value="3">
+                <div class="form-hint">Exam will automatically submit when this limit is breached.</div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0;">
+                <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer;">
+                  <input type="checkbox" id="ac-copypaste">
+                  <span class="font-semibold text-sm">Disable Copy / Paste & Context Menu</span>
+                </label>
+                <div class="form-hint">Prevents copying question prompts or pasting external content.</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 0.75rem;">
+                💾 Update Examination
+              </button>
+              <a href="exams.html" class="btn btn-secondary" style="width: 100%; text-align: center;">
+                Cancel
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/notification.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      AdminController.initExamForm(true);
+    });
+  </script>
+</body>
+</html>

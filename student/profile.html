@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Profile - ApexExam</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container">
+      <a href="dashboard.html" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>ApexExam Portal</span>
+      </a>
+
+      <div class="flex items-center gap-4">
+        <span class="badge badge-primary">STUDENT</span>
+        <button onclick="Auth.logout()" class="btn btn-secondary btn-sm">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a></li>
+        <li><a href="exams.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Available Tests</a></li>
+        <li><a href="results.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>My Results & Certs</a></li>
+        <li><a href="profile.html" class="sidebar-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>My Profile</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <div class="flex justify-between items-center flex-wrap gap-4" style="margin-bottom: 2rem;">
+        <div>
+          <h1>Student Profile & Settings</h1>
+          <p>Manage your account credentials, academic department info, and view learning summary.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-6">
+        <!-- Left: Profile Info Form -->
+        <div style="grid-column: span 2;">
+          <div class="card" style="margin-bottom: 1.5rem;">
+            <h3 style="margin-bottom: 1.25rem;">Personal & Academic Information</h3>
+
+            <form id="profile-form">
+              <div class="grid grid-cols-2 gap-4">
+                <div class="form-group">
+                  <label class="form-label" for="profile-name">Full Name *</label>
+                  <input type="text" id="profile-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="profile-roll">Roll / Registration No. *</label>
+                  <input type="text" id="profile-roll" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profile-email">Institutional Email</label>
+                <input type="email" id="profile-email" class="form-control" disabled style="background: var(--bg-subtle);">
+                <div class="form-hint">Email address cannot be modified once enrolled.</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profile-dept">Academic Department *</label>
+                <input type="text" id="profile-dept" class="form-control" required>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="margin-top: 0.5rem;">
+                💾 Save Changes
+              </button>
+            </form>
+          </div>
+
+          <!-- Change Password Card -->
+          <div class="card">
+            <h3 style="margin-bottom: 1.25rem;">Security & Password</h3>
+
+            <form id="password-form">
+              <div class="form-group">
+                <label class="form-label" for="pass-current">Current Password *</label>
+                <input type="password" id="pass-current" class="form-control" placeholder="••••••••" required>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div class="form-group">
+                  <label class="form-label" for="pass-new">New Password *</label>
+                  <input type="password" id="pass-new" class="form-control" placeholder="Min 6 characters" minlength="6" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pass-confirm">Confirm New Password *</label>
+                  <input type="password" id="pass-confirm" class="form-control" placeholder="Repeat new password" required>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-secondary">
+                Update Password
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right: Profile Summary Card -->
+        <div>
+          <div class="card" style="text-align: center; padding: 2rem 1.5rem;">
+            <div style="width: 72px; height: 72px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-size: 1.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto;" class="user-avatar-initials">
+              ST
+            </div>
+            <h3 class="current-user-name" style="margin-bottom: 0.25rem;">Student Name</h3>
+            <p class="text-xs text-muted current-user-email">email@student.com</p>
+
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-light); text-align: left;">
+              <div class="flex justify-between items-center text-sm" style="margin-bottom: 0.75rem;">
+                <span class="text-secondary">Role:</span>
+                <span class="badge badge-primary">STUDENT</span>
+              </div>
+              <div class="flex justify-between items-center text-sm" style="margin-bottom: 0.75rem;">
+                <span class="text-secondary">Assessments Taken:</span>
+                <strong id="profile-stat-exams">0</strong>
+              </div>
+              <div class="flex justify-between items-center text-sm" style="margin-bottom: 0.75rem;">
+                <span class="text-secondary">Average Grade:</span>
+                <strong class="text-success" id="profile-stat-avg">0%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/notification.js"></script>
+  <script src="../assets/js/student.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      StudentController.renderProfile();
+    });
+  </script>
+</body>
+</html>

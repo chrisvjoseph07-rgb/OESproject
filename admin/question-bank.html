@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question Bank - ApexExam Admin</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container">
+      <a href="dashboard.html" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>ApexExam Admin</span>
+      </a>
+
+      <div class="flex items-center gap-4">
+        <span class="badge badge-danger">ADMINISTRATOR</span>
+        <button onclick="Auth.logout()" class="btn btn-secondary btn-sm">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a></li>
+        <li><a href="exams.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Examinations</a></li>
+        <li><a href="question-bank.html" class="sidebar-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Question Bank</a></li>
+        <li><a href="results.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Grading & Results</a></li>
+        <li><a href="students.html" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Students</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <div class="flex justify-between items-center flex-wrap gap-4" style="margin-bottom: 2rem;">
+        <div>
+          <h1>Central Question Repository</h1>
+          <p>Curate, categorize, and maintain Multiple Choice and Subjective Essay questions.</p>
+        </div>
+        <button onclick="AdminController.openAddQuestionModal()" class="btn btn-primary">
+          + Add New Question
+        </button>
+      </div>
+
+      <!-- Filters -->
+      <div class="card" style="margin-bottom: 1.5rem; padding: 1rem 1.5rem;">
+        <div class="grid grid-cols-3 gap-4">
+          <div class="form-group" style="margin-bottom: 0;">
+            <input type="text" id="q-search" class="form-control" placeholder="Search questions or keywords...">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <select id="q-type-filter" class="form-control">
+              <option value="all">All Question Formats</option>
+              <option value="mcq">MCQ (Multiple Choice)</option>
+              <option value="essay">Essay / Long Answer</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <select id="q-cat-filter" class="form-control">
+              <option value="all">All Subjects / Categories</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Data Structures">Data Structures</option>
+              <option value="Databases">Databases</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Questions Table -->
+      <div class="card">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 80px;">Type</th>
+                <th>Question & Details</th>
+                <th>Category</th>
+                <th>Difficulty</th>
+                <th>Points</th>
+                <th style="width: 150px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="questions-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add / Edit Question Modal -->
+  <div class="modal-overlay" id="question-modal">
+    <div class="modal-card" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 id="q-modal-title">Add Question to Repository</h3>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="document.getElementById('question-modal').classList.remove('active')">&times;</button>
+      </div>
+
+      <form id="question-form" onsubmit="event.preventDefault(); AdminController.saveQuestionFromModal();">
+        <input type="hidden" id="q-edit-id">
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-group">
+            <label class="form-label" for="q-type">Question Type *</label>
+            <select id="q-type" class="form-control" onchange="AdminController.toggleQuestionTypeFields(this.value)">
+              <option value="mcq">Multiple Choice (MCQ)</option>
+              <option value="essay">Subjective Essay</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="q-category">Category / Subject *</label>
+            <input type="text" id="q-category" class="form-control" placeholder="e.g. Web Development" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q-title">Question Prompt *</label>
+          <textarea id="q-title" class="form-control" rows="3" placeholder="Enter complete question statement..." required></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-group">
+            <label class="form-label" for="q-difficulty">Difficulty Level</label>
+            <select id="q-difficulty" class="form-control">
+              <option value="Easy">Easy</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="q-points">Score Points *</label>
+            <input type="number" id="q-points" class="form-control" min="1" max="100" value="5" required>
+          </div>
+        </div>
+
+        <!-- MCQ Specific Fields -->
+        <div id="mcq-specific-fields">
+          <div class="card p-3" style="background: var(--bg-subtle); margin-bottom: 1rem;">
+            <label class="form-label">Provide 4 Answer Options & Mark Correct Key</label>
+
+            <div class="form-group">
+              <label class="text-xs font-semibold">Option A</label>
+              <input type="text" id="q-opt-0" class="form-control" placeholder="Option A text">
+            </div>
+
+            <div class="form-group">
+              <label class="text-xs font-semibold">Option B</label>
+              <input type="text" id="q-opt-1" class="form-control" placeholder="Option B text">
+            </div>
+
+            <div class="form-group">
+              <label class="text-xs font-semibold">Option C</label>
+              <input type="text" id="q-opt-2" class="form-control" placeholder="Option C text">
+            </div>
+
+            <div class="form-group">
+              <label class="text-xs font-semibold">Option D</label>
+              <input type="text" id="q-opt-3" class="form-control" placeholder="Option D text">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="q-correct">Correct Option</label>
+              <select id="q-correct" class="form-control">
+                <option value="0">Option A</option>
+                <option value="1">Option B</option>
+                <option value="2">Option C</option>
+                <option value="3">Option D</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="q-explanation">Answer Explanation / Rationale</label>
+            <input type="text" id="q-explanation" class="form-control" placeholder="Optional explanation displayed after grading">
+          </div>
+        </div>
+
+        <!-- Essay Specific Fields -->
+        <div id="essay-specific-fields" style="display: none;">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="form-group">
+              <label class="form-label" for="q-min-words">Minimum Word Count</label>
+              <input type="number" id="q-min-words" class="form-control" value="50" min="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="q-max-words">Maximum Word Count</label>
+              <input type="number" id="q-max-words" class="form-control" value="300" min="10">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="q-rubric">Instructor Grading Rubric</label>
+            <textarea id="q-rubric" class="form-control" rows="3" placeholder="Key points and grading criteria that instructors will reference when marking..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('question-modal').classList.remove('active')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Question</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/notification.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      AdminController.renderQuestionBank();
+    });
+  </script>
+</body>
+</html>

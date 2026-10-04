@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard - ApexExam</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container">
+      <a href="dashboard.html" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>ApexExam Portal</span>
+      </a>
+
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2">
+          <span class="badge badge-primary">STUDENT</span>
+          <span class="font-semibold text-sm current-user-name">Loading...</span>
+        </div>
+        <button onclick="Auth.logout()" class="btn btn-secondary btn-sm">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <ul class="sidebar-nav">
+        <li>
+          <a href="dashboard.html" class="sidebar-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="exams.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Available Tests
+          </a>
+        </li>
+        <li>
+          <a href="results.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            My Results & Certs
+          </a>
+        </li>
+        <li>
+          <a href="profile.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            My Profile
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-user" style="padding-top: 1rem; border-top: 1px solid var(--border-light); font-size: 0.85rem;">
+        <div class="font-semibold current-user-name">Student Name</div>
+        <div class="text-xs text-muted">Roll: <span class="current-user-roll">CS-000</span></div>
+        <div class="text-xs text-muted current-user-dept">Department</div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <div class="flex justify-between items-center flex-wrap gap-4" style="margin-bottom: 2rem;">
+        <div>
+          <h1>Student Workspace</h1>
+          <p>Welcome back! Select an active examination to begin your assessment.</p>
+        </div>
+        <a href="exams.html" class="btn btn-primary">
+          Explore All Exams →
+        </a>
+      </div>
+
+      <!-- Student Welcome & Inspiration Banner -->
+      <div class="card" style="padding: 1.5rem 2rem; margin-bottom: 2rem; background: linear-gradient(135deg, #1e1b4b, #312e81); color: #fff; overflow: hidden; position: relative;">
+        <div class="flex justify-between items-center flex-wrap gap-4">
+          <div style="max-width: 600px; z-index: 2;">
+            <span class="badge" style="background: rgba(255, 255, 255, 0.2); color: #fff; margin-bottom: 0.5rem;">ACADEMIC EXCELLENCE</span>
+            <h2 style="color: #fff; font-size: 1.6rem; margin-bottom: 0.4rem;">Welcome back, <span class="current-user-name">Student</span>!</h2>
+            <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 1.25rem;">
+              Maintain your momentum. Complete proctored assessments, review graded responses, and track your progress toward certification.
+            </p>
+            <a href="exams.html" class="btn btn-primary btn-sm" style="background: #4f46e5; border-color: #6366f1;">
+              Browse Available Examinations →
+            </a>
+          </div>
+          <div style="width: 220px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); border: 2px solid rgba(255, 255, 255, 0.2);">
+            <img src="../assets/images/success.jpg" alt="Student Progress & Assessment" style="width: 100%; height: auto; display: block;">
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="grid grid-cols-4 gap-4" style="margin-bottom: 2rem;">
+        <div class="stat-card">
+          <div>
+            <div class="stat-label">Tests Completed</div>
+            <div class="stat-value" id="stat-my-exams">0</div>
+          </div>
+          <div class="stat-icon">📝</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-label">Average Score</div>
+            <div class="stat-value text-primary" id="stat-my-avg">0%</div>
+          </div>
+          <div class="stat-icon" style="background: var(--primary-light); color: var(--primary);">📈</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-label">Passed Tests</div>
+            <div class="stat-value text-success" id="stat-my-passed">0</div>
+          </div>
+          <div class="stat-icon" style="background: var(--success-light); color: var(--success);">🏆</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-label">Available Exams</div>
+            <div class="stat-value" id="stat-available-exams">0</div>
+          </div>
+          <div class="stat-icon">🎯</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-6">
+        <!-- Ready to Take Exams -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>Featured Available Examinations</h3>
+              <p class="text-xs text-muted">Published and ready for testing</p>
+            </div>
+            <a href="exams.html" class="btn btn-ghost btn-sm">View All</a>
+          </div>
+
+          <div id="dashboard-available-exams">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- Recent Performance History -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>Recent Assessment Results</h3>
+              <p class="text-xs text-muted">Your performance record</p>
+            </div>
+            <a href="results.html" class="btn btn-ghost btn-sm">Full History</a>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Exam Title</th>
+                  <th>Score</th>
+                  <th>Percent</th>
+                  <th>Status</th>
+                  <th>Detail</th>
+                </tr>
+              </thead>
+              <tbody id="dashboard-recent-results">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/notification.js"></script>
+  <script src="../assets/js/student.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      StudentController.renderDashboard();
+    });
+  </script>
+</body>
+</html>

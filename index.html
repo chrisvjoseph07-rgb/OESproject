@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexExam - Next-Gen Online Examination & Assessment System</title>
+  <meta name="description" content="Secure, responsive, and intuitive online examination platform with real-time proctoring, instant MCQ scoring, and essay grading.">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    /* Landing Page Aesthetics */
+    .hero {
+      padding: 4.5rem 0 3.5rem 0;
+      background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.08), transparent 50%),
+                  radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.08), transparent 50%);
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.9rem;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: 3.25rem;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+      max-width: 850px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      max-width: 680px;
+      margin: 0 auto 2.25rem auto;
+      color: var(--text-secondary);
+    }
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
+    }
+    .hero-visual-frame {
+      max-width: 1000px;
+      margin: 0 auto;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      position: relative;
+    }
+    .hero-visual-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+      padding: 2rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+    }
+    .stats-item {
+      text-align: center;
+    }
+    .stats-num {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .stats-text {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    .features-section {
+      padding: 5rem 0;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .section-title h2 {
+      font-size: 2.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .feature-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      transition: all var(--transition-normal);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-light);
+    }
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-md);
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    /* Showcase Banner Blocks */
+    .showcase-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+      margin-bottom: 5rem;
+    }
+    .showcase-block.reverse {
+      direction: rtl;
+    }
+    .showcase-block.reverse > * {
+      direction: ltr;
+    }
+    .showcase-img {
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--border-light);
+    }
+    .showcase-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .role-box {
+      background: var(--bg-surface);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all var(--transition-normal);
+    }
+    .role-box.admin-role {
+      border-color: rgba(79, 70, 229, 0.2);
+    }
+    .role-box.student-role {
+      border-color: rgba(14, 165, 233, 0.2);
+    }
+    .role-box:hover {
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
+      transform: translateY(-3px);
+    }
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 3.5rem 0 2rem 0;
+      margin-top: auto;
+    }
+    @media (max-width: 900px) {
+      .showcase-block { grid-template-columns: 1fr; gap: 2rem; }
+      .showcase-block.reverse { direction: ltr; }
+    }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.25rem; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .role-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>ApexExam</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#proctoring" class="nav-link">Security & Proctoring</a></li>
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="admin/login.html" class="nav-link" style="color: #dc2626; font-weight: 600;">Faculty Login ⚙️</a></li>
+          <li><a href="login.html?role=student" class="btn btn-secondary btn-sm">Student Sign In</a></li>
+          <li><a href="signup.html" class="btn btn-primary btn-sm">Student Enrollment</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section with Generated Hero Illustration -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span>🔒 Next-Generation Academic Assessment & Proctoring System</span>
+      </div>
+
+      <h1>
+        Intelligent <span>Online Examination</span> & Proctoring Platform
+      </h1>
+
+      <p>
+        Deliver high-integrity assessments with automated MCQ grading, rich essay evaluation, tab-switch monitoring, precision countdown timers, and full offline state persistence.
+      </p>
+
+      <div class="hero-cta">
+        <a href="login.html?role=student" class="btn btn-primary btn-lg">
+          Access Student Portal →
+        </a>
+        <a href="admin/login.html" class="btn btn-secondary btn-lg" style="border-color: #cbd5e1;">
+          Faculty & Admin Control Center ⚙️
+        </a>
+      </div>
+
+      <!-- Generated Hero Image Frame -->
+      <div class="hero-visual-frame">
+        <img src="assets/images/hero.jpg" alt="ApexExam Online Examination Interface">
+      </div>
+
+      <!-- Live Stats Bar -->
+      <div class="stats-bar">
+        <div class="stats-item">
+          <div class="stats-num" id="stat-total-exams">3</div>
+          <div class="stats-text">Available Exams</div>
+        </div>
+        <div class="stats-item">
+          <div class="stats-num" id="stat-total-questions">10</div>
+          <div class="stats-text">Repository Questions</div>
+        </div>
+        <div class="stats-item">
+          <div class="stats-num">100%</div>
+          <div class="stats-text">State Persistence</div>
+        </div>
+        <div class="stats-item">
+          <div class="stats-num">0 ms</div>
+          <div class="stats-text">Instant Auto-Grading</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visual Feature Showcase 1: Anti-Cheat & Proctoring -->
+  <section id="proctoring" style="padding: 5rem 0; background: var(--bg-surface);">
+    <div class="container">
+      <div class="showcase-block">
+        <div>
+          <span class="badge badge-danger" style="margin-bottom: 0.75rem;">PROCTORING & INTEGRITY</span>
+          <h2 style="font-size: 2.25rem; margin-bottom: 1rem; line-height: 1.2;">
+            Active Anti-Cheating & Behavior Monitoring
+          </h2>
+          <p style="margin-bottom: 1.25rem; font-size: 1.05rem; line-height: 1.6;">
+            Safeguard exam credibility through real-time proctoring controls designed to eliminate unauthorized external assistance:
+          </p>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.95rem; color: var(--text-secondary);">
+            <li class="flex items-center gap-2">
+              <span class="text-success font-bold">✓</span>
+              <span><strong>Tab & Window Switch Interception:</strong> Automatic warning alerts and instant auto-submit if student exceeds allowed violations.</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-success font-bold">✓</span>
+              <span><strong>Fullscreen Enforcement:</strong> Monitors display state and prompts examinees when fullscreen is bypassed.</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-success font-bold">✓</span>
+              <span><strong>Clipboard & Context Menu Lock:</strong> Blocks right-click inspection and copy-pasting of test prompts.</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-success font-bold">✓</span>
+              <span><strong>Accidental Exit Protection:</strong> Confirms navigation intent to prevent lost work during active examinations.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="showcase-img">
+          <img src="assets/images/proctoring.jpg" alt="Proctoring Interface & Anti-Cheating">
+        </div>
+      </div>
+
+      <!-- Visual Feature Showcase 2: Scoring & Achievement -->
+      <div class="showcase-block reverse" style="margin-bottom: 0;">
+        <div>
+          <span class="badge badge-success" style="margin-bottom: 0.75rem;">EVALUATION & CERTIFICATION</span>
+          <h2 style="font-size: 2.25rem; margin-bottom: 1rem; line-height: 1.2;">
+            Instant Auto-Grading & Subjective Essay Rubrics
+          </h2>
+          <p style="margin-bottom: 1.25rem; font-size: 1.05rem; line-height: 1.6;">
+            Support diverse question formats with rapid feedback loops and rigorous faculty grading workflows:
+          </p>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.95rem; color: var(--text-secondary);">
+            <li class="flex items-center gap-2">
+              <span class="text-success font-bold">✓</span>
+              <span><strong>Instant MCQ Score Calculation:</strong> Real-time percentage, pass/fail determination, and solution explanations.</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-success font-bold">✓</span>
+              <span><strong>Faculty Essay Evaluation:</strong> Instructor assessment center with word counts, customized rubric guides, and written remarks.</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-success font-bold">✓</span>
+              <span><strong>Printable Score Reports:</strong> Verified scorecards complete with question-level breakdown and academic credentials.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="showcase-img">
+          <img src="assets/images/success.jpg" alt="Student Certification & Performance Analytics">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid Section -->
+  <section id="features" class="features-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Built for Academic Standards</h2>
+        <p>Comprehensive assessment tools for educational institutions and corporate certification.</p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-6">
+        <div class="feature-card">
+          <div class="feature-icon">⏱️</div>
+          <h3>Precision Countdown Timer</h3>
+          <p>Real-time countdown timer with automated submission upon expiration, visual warnings, and persistent timekeeping across reloads.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Proctored Integrity</h3>
+          <p>Monitors tab switches, enforces fullscreen, blocks copy-paste, and alerts administrators with timestamped violation logs.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📝</div>
+          <h3>Hybrid Question Engine</h3>
+          <p>Supports both single-choice MCQs with immediate auto-grading and structured open-ended Essay questions with rubrics.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔀</div>
+          <h3>Question Randomization</h3>
+          <p>Configurable per-exam question shuffling ensures test integrity and eliminates order-bias among peer examinees.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Faculty Grading Center</h3>
+          <p>Instructors evaluate essay responses, assign weighted scores, write actionable feedback, and analyze pass/fail distributions.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💾</div>
+          <h3>Real-Time Persistence</h3>
+          <p>Every keystroke and selected answer is saved in real-time. If a student's browser accidentally refreshes, no work is lost.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clean Portals Section (No example login credentials or chips) -->
+  <section id="portals" style="padding: 4.5rem 0; background: var(--bg-subtle);">
+    <div class="container">
+      <div class="section-title">
+        <h2>Institutional Access Portals</h2>
+        <p>Sign in using your institutional email and password.</p>
+      </div>
+
+      <div class="role-grid">
+        <!-- Admin Box -->
+        <div class="role-box admin-role">
+          <div>
+            <span class="badge badge-danger" style="margin-bottom: 1rem;">Administrator Portal</span>
+            <h3>Faculty & Examiner Control Center</h3>
+            <p style="margin-top: 0.5rem; color: var(--text-secondary);">
+              Create customized exams, manage the question repository, view student cohorts, and manually grade open-ended essays.
+            </p>
+          </div>
+
+          <a href="admin/login.html" class="btn btn-danger" style="margin-top: 2rem;">
+            Sign In as Administrator ⚙️
+          </a>
+        </div>
+
+        <!-- Student Box -->
+        <div class="role-box student-role">
+          <div>
+            <span class="badge badge-primary" style="margin-bottom: 1rem;">Student Portal</span>
+            <h3>Examinee Workspace</h3>
+            <p style="margin-top: 0.5rem; color: var(--text-secondary);">
+              Browse enrolled tests, take proctored examinations with the interactive question palette, and view certified scorecards.
+            </p>
+          </div>
+
+          <div class="flex gap-3" style="margin-top: 2rem;">
+            <a href="login.html?role=student" class="btn btn-secondary flex-1">
+              Student Sign In 🎓
+            </a>
+            <a href="signup.html" class="btn btn-primary flex-1">
+              New Enrollment →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container flex justify-between items-center flex-wrap gap-4">
+      <div>
+        <div style="font-weight: 700; color: #fff; font-size: 1.1rem; margin-bottom: 0.25rem;">ApexExam Online System</div>
+        <p style="color: #64748b; font-size: 0.85rem;">Client-Side Examination & Proctoring Platform</p>
+      </div>
+      <div style="font-size: 0.85rem; color: #64748b;">
+        © 2026 ApexExam. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/notification.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const exams = window.storage.getExams();
+      const questions = window.storage.getQuestions();
+      if (document.getElementById('stat-total-exams')) {
+        document.getElementById('stat-total-exams').textContent = exams.length;
+      }
+      if (document.getElementById('stat-total-questions')) {
+        document.getElementById('stat-total-questions').textContent = questions.length;
+      }
+    });
+  </script>
+</body>
+</html>
